@@ -19,7 +19,9 @@ body {
     --color-fade-blue: #4a64e734;
 }
 
-
+.active{
+  @apply py-2 px-6 mx-2 bg-fade-blue rounded-2xl;
+}
 
 /* 
 @custom-variant dark (&:is(.dark *));

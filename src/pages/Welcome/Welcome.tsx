@@ -34,7 +34,7 @@ const Welcome = () => {
                     <div className="ml-auto">
                         <div className='flex gap-4 items-center text-white '>
                             <div className='active'>
-                                <Link to="/" className="active">Home</Link>
+                                <Link to="/">Home</Link>
                             </div>
                             <div>
                                 <Link to="#">Latest Topics</Link>
