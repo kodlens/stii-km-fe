@@ -3,7 +3,9 @@ import Welcome from './pages/Welcome/Welcome'
 function App() {
 
   return (
-    <Welcome />
+    <div className={''}>
+      <Welcome />
+    </div>
   )
 }
 

@@ -11,11 +11,12 @@ body {
     -ms-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    
 }
 
 @theme {
     --color-primary: #0071f8;
+    --color-danger: #ee626b;
+    --color-fade-blue: #4a64e734;
 }
 
 
