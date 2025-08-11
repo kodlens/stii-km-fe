@@ -1,10 +1,11 @@
+import MainPage from './pages/MainPage'
 import Welcome from './pages/Welcome/Welcome'
 
 function App() {
 
   return (
     <div className={''}>
-      <Welcome />
+      <MainPage />
     </div>
   )
 }

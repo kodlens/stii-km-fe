@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import './style.css'
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Search } from 'lucide-react';
+import axios from 'axios';
 
 const Welcome = () => {
 
@@ -11,7 +12,7 @@ const Welcome = () => {
     const { data, isFetching } = useQuery({
         queryKey: ['search'],
         queryFn: async () => {
-            const res = axios.get(`get-sample`)
+            const res = await axios.get(`get-sample`)
             return res.data
         }
     })
@@ -58,48 +59,46 @@ const Welcome = () => {
                 backgroundPosition: `center bottom`,
                 backgroundRepeat: `no-repeat`,
                 backgroundSize: `cover`,
-                padding: `225px 0px`,
+                padding: `150px 0px`,
                 zIndex: -1
             }}>
 
-                <div className="">
-                    <div className="text-center">
-                        <div className="caption header-text">
-                            <h6 className='text-xl md:text-2xl font-bold text-white md:p-4 mb-2 uppercase lg:leading-4'>Welcome To</h6>
-                            <h2 className='text-4xl md:text-6xl font-extrabold text-white uppercase md:p-4 lg:leading-8'>STII - Knowledge Management</h2>
-                            <p className='max-w-4xl mx-2 md:mx-auto md:leading-6 mt-4 text-white'>The Science and Technology Information Institute (STII) champions knowledge management by organizing, preserving, and disseminating credible S&T resources to support evidence-based decision-making and innovation. 
-                                {/* Through its digital platforms and partnerships, STII ensures accessible and inclusive information delivery for researchers, educators, and the general public. */}
-                            </p>
-                            <div className="mt-4 lg:max-w-4xl lg:mx-auto">
-                                <div className="flex rounded-4xl overflow-hidden">
-                                    <div className='flex-1'>
-                                        <input
-                                            type="text"
-                                            className="bg-white text-[#7a7a7a] px-6 py-4 w-full outline-0 "
-                                            placeholder="Search here..."
-                                            name="search"
-                                            value={search}
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter') {
-                                                    handleKeyDown(e);
-                                                }
-                                            }}
-                                            onChange={(e) => setSearch(e.target.value)}
-                                            autoComplete="off"
-                                        />
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="bg-danger py-4 pl-4 pr-6 text-white cursor-pointer active:bg-red-500 duration-150 hover:bg-red-400 ease-in-out outline-0"
-                                        onClick={() => {
-                                        console.log(search);
+                <div className="text-center">
+                    <div className="">
+                        <h6 className='text-xl md:text-2xl font-bold text-white md:p-4 mb-2 uppercase lg:leading-4'>Welcome To</h6>
+                        <h2 className='text-4xl md:text-6xl font-extrabold text-white uppercase md:p-4 lg:leading-8'>STII - Knowledge Management</h2>
+                        <p className='max-w-4xl mx-2 md:mx-auto md:leading-6 mt-4 text-white'>The Science and Technology Information Institute (STII) champions knowledge management by organizing, preserving, and disseminating credible S&T resources to support evidence-based decision-making and innovation. 
+                            {/* Through its digital platforms and partnerships, STII ensures accessible and inclusive information delivery for researchers, educators, and the general public. */}
+                        </p>
+                        <div className="mt-4 lg:max-w-4xl lg:mx-auto">
+                            <div className="flex rounded-4xl overflow-hidden">
+                                <div className='flex-1'>
+                                    <input
+                                        type="text"
+                                        className="bg-white text-[#7a7a7a] px-6 py-4 w-full outline-0 "
+                                        placeholder="Search here..."
+                                        name="search"
+                                        value={search}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                handleKeyDown(e);
+                                            }
                                         }}
-                                    >
-                                        <div className='flex gap-2 items-center'>  <Search size={18}/> Search Now</div>
-                                    </button>
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        autoComplete="off"
+                                    />
                                 </div>
-
+                                <button
+                                    type="button"
+                                    className="bg-danger py-4 pl-4 pr-6 text-white cursor-pointer active:bg-red-500 duration-150 hover:bg-red-400 ease-in-out outline-0"
+                                    onClick={() => {
+                                    console.log(search);
+                                    }}
+                                >
+                                    <div className='flex gap-2 items-center'>  <Search size={18}/> Search Now</div>
+                                </button>
                             </div>
+
                         </div>
                     </div>
                 </div>
