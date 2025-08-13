@@ -1,22 +1,39 @@
 import axios from 'axios';
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import  { useState, forwardRef, useImperativeHandle } from 'react';
 import { config } from '../config/config';
 import { Link } from 'react-router';
+import Loader from './loader/Loader';
 
 
 interface InfoProps {
     title: string;
     description: string;
+    slug:string;
+    source_url:string;
 }
 
 const Result = forwardRef(( _, ref) => {
     const [data, setData] = useState<any[]>([]);
     const [subjectHeadings, setSubjectHeadings] = useState<string[]>([]);
+    const [loading, setLoading] = useState<boolean>(false)
+
+
+    const truncateWords = (str: string, maxLength = 100) => {
+        if (!str) return "";
+        if (str.length <= maxLength) return str;
+        return str.slice(0, str.lastIndexOf(" ", maxLength)) + "…";
+      };
 
     const handleSearch = (search:string) => {
+        setLoading(true)
+        console.log('from result component')
         axios.get(`${config.baseUri}/api/search/s?key=${search}`).then(res => {
             setData(res.data.results.data); // adjust if structure differs
             setSubjectHeadings(res.data.related_subject_headings);
+            setLoading(false)
+
+        }).catch(err => {
+            setLoading(false)
         });
     };
 
@@ -26,27 +43,41 @@ const Result = forwardRef(( _, ref) => {
     // ));
 
     useImperativeHandle(ref, ()=>({
-
+        handleSearch
     }))
+
+    if(loading){
+        return <Loader />
+    }
 
     return (
         <div className='flex lg:flex-row flex-col gap-4'>
-            <div className='bg-white shadow-lg p-4 rounded-md'>
+            <div className='p-4 lg:w-[250px]'>
                 <div className='font-bold mb-2'>Subject Headings</div>
-                <div>
-                    {subjectHeadings.map((heading, i) => (
-                        <Link className='text-sm' to={'#'} key={i}>{heading}</Link>
-                    ))}
+                <div className='flex flex-col gap-2 text-blue-600'>
+                    { subjectHeadings.length > 0 ? (
+                        subjectHeadings.map((heading, i) => (
+                            <Link className='text-[14px]' to={`#`} key={i}>{heading}</Link>
+                        ))
+                    ): (
+                        <div>No data...</div>
+                    )}
+                   
                 </div>
             </div>
 
-            <div className='flex-1 lg:w-[750px] rounded-md bg-white shadow-lg p-4'>
+            <div className='w-full py-4 px-6'>
                 <div className='mb-2 font-bold'>Result(s)</div>
                 {data.map((item: InfoProps, i) => (
                     <div key={i} className='mb-4'>
-                        <h3 className='text-lg font-semibold'>{item.title}</h3>
+                        <h3 className='text-lg font-semibold text-blue-400'>
+                            <Link to={`${item.source_url}/article/${item.slug}`}
+                                target='_blank'
+                            >{item.title}</Link>
+                        </h3>
                         <div
-                            dangerouslySetInnerHTML={{ __html: item.description }}
+                            className='italic'
+                            dangerouslySetInnerHTML={{ __html: truncateWords(item.description) }}
                         />
                     </div>
                 ))}
