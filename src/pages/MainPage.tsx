@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { Search } from "lucide-react"
-import { useState } from "react"
+import { useRef, useState } from "react"
+import Result from "../components/result"
 
 const MainPage = () => {
 
 
     const [search, setSearch] = useState('')
+    const resultRef = useRef<any>(null);
 
     const { data, isFetching } = useQuery({
         queryKey: ['search'],
@@ -16,10 +18,11 @@ const MainPage = () => {
         }
     })
 
-    const handleKeyDown = (e: any) => {
-        e.preventDefault();
-        console.log(search);
-    }
+     const handleKeyDown = () => {
+        console.log('test');
+        
+        resultRef.current?.handleSearch(search);
+    };
 
     return (
         <>
@@ -36,11 +39,11 @@ const MainPage = () => {
                             placeholder="Collections, Innovations, Technology, News ..."
                             name="search"
                             value={search}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    handleKeyDown(e);
-                                }
-                            }}
+                            // onKeyDown={(e) => {
+                            //     if (e.key === 'Enter') {
+                            //         handleKeyDown();
+                            //     }
+                            // }}
                             onChange={(e) => setSearch(e.target.value)}
                             autoComplete="off"
                         />
@@ -49,7 +52,9 @@ const MainPage = () => {
                         type="button"
                         className="bg-danger py-4 pl-4 pr-6 text-white cursor-pointer active:bg-red-500 duration-150 hover:bg-red-400 ease-in-out outline-0"
                         onClick={() => {
-                        console.log(search);
+                            console.log(search);
+                            handleKeyDown();
+
                         }}
                     >
                         <div className='flex gap-2 items-center'>  <Search size={18}/> Search Now</div>
@@ -57,6 +62,11 @@ const MainPage = () => {
                 </div>
 
             </div>
+
+            <div className="mt-10 lg:max-w-4xl lg:mx-auto">
+                <Result ref={resultRef}  />
+            </div>
+
 
         </>
     )
