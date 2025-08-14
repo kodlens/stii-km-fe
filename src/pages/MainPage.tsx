@@ -3,6 +3,7 @@ import axios from "axios"
 import { Search } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import Result from "../components/Result"
+import { Link } from "react-router"
 
 const MainPage = () => {
 
@@ -35,8 +36,10 @@ const MainPage = () => {
             </div>
 
             <div className="mt-10 lg:max-w-7xl lg:mx-auto">
-
-                <img src="/images/header-logo.png" className="block mx-auto mb-6"/>
+                <Link to='/'>
+                    <img src="/images/header-logo.png" className="block mx-auto mb-6"/>
+                </Link>
+                
                 <div className="text-center text-2xl font-bold mb-2">Hanap mo bhe?</div>
                 <div className="flex rounded-4xl overflow-hidden border border-red-400 mx-2">
                     <div className='flex-1'>

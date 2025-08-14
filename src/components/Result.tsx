@@ -34,6 +34,7 @@ const Result = forwardRef(( _, ref) => {
             setLoading(false)
 
         }).catch(err => {
+            console.log(err.response.message);
             setLoading(false)
         });
     };
@@ -56,14 +57,16 @@ const Result = forwardRef(( _, ref) => {
         <div className='flex lg:flex-row flex-col gap-4'>
             <div className='p-4 lg:w-[250px]'>
                 <div className='font-bold mb-2'>Topics</div>
-                <div className='flex flex-col gap-2 text-blue-600'>
+                <div className='flex flex-col gap-2 '>
                     { subjectHeadings.length > 0 ? (
                         subjectHeadings.map((heading, i) => (
-                            <Link className='text-[14px]' to={`/subject-headings/${heading.slug}`} 
+                            <Link className='text-[14px] text-blue-600' to={`/subject-headings/${heading.slug}`} 
                                 key={i}>{heading.subject_heading}
                             </Link>
                         ))
-                    ): null}
+                    ): (
+                        <div className='italic text-sm'>No resulst found...</div>
+                    )}
                    
                 </div>
             </div>
@@ -72,19 +75,29 @@ const Result = forwardRef(( _, ref) => {
 
             <div className='w-full py-4 px-6'>
                 <div className='mb-2 font-bold'>Digital Collections</div>
-                {data?.map((item: InfoProps, i) => (
-                    <div key={i} className='mb-4'>
-                        <h3 className='text-lg font-semibold text-blue-400'>
-                            <Link to={`${item.source_url}/article/${item.slug}`}
-                                target='_blank'
-                            >{item.title}</Link>
-                        </h3>
-                        <div
-                            className='italic'
-                            dangerouslySetInnerHTML={{ __html: truncateWords(item.description) }}
-                        />
-                    </div>
-                ))}
+                { data?.length > 0 ? (
+                    data?.map((item: InfoProps, i) => (
+                        <div key={i} className='mb-4'>
+                            <h3 className='text-lg font-semibold text-blue-400'>
+                                <Link className='hover:underline' to={`${item.source_url}/article/${item.slug}`}
+                                    target='_blank'
+                                >{item.title}</Link>
+                            </h3>
+                            <div
+                                className='italic'
+                                dangerouslySetInnerHTML={{ __html: item.description}}
+                            />
+
+                            { item.source_url ? (
+                                <Link className='text-sm text-blue-500' to={item.source_url}>{item.source_url}</Link>
+                            ) : null
+                            }
+                        </div>
+                    ))
+                ) : (
+                    <div className='italic text-sm'>No resulst found...</div>
+                ) }
+                
             </div>
         </div>
     );
