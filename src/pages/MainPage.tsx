@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { Search } from "lucide-react"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Result from "../components/Result"
 
 const MainPage = () => {
@@ -19,6 +19,10 @@ const MainPage = () => {
     //     }
     // })
 
+    useEffect(()=>{
+        handleKeyDown()
+    }, [])
+
      const handleKeyDown = () => {
         const value = searchRef.current?.value || "";
         resultRef.current?.handleSearch(value);
@@ -26,11 +30,14 @@ const MainPage = () => {
 
     return (
         <>
-            <div className="h-[100px] bg-[#031ba3]">
+            <div className="h-[20px] bg-[#2c94d1]">
 
             </div>
 
             <div className="mt-10 lg:max-w-7xl lg:mx-auto">
+
+                <img src="/images/header-logo.png" className="block mx-auto mb-6"/>
+                <div className="text-center text-2xl font-bold mb-2">Hanap mo bhe?</div>
                 <div className="flex rounded-4xl overflow-hidden border border-red-400 mx-2">
                     <div className='flex-1'>
                         <input

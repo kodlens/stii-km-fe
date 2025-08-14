@@ -3,6 +3,7 @@ import  { useState, forwardRef, useImperativeHandle } from 'react';
 import { config } from '../config/config';
 import { Link } from 'react-router';
 import Loader from './loader/Loader';
+import type { SubjectHeading } from '../types/subjectHeading';
 
 
 interface InfoProps {
@@ -14,7 +15,7 @@ interface InfoProps {
 
 const Result = forwardRef(( _, ref) => {
     const [data, setData] = useState<any[]>([]);
-    const [subjectHeadings, setSubjectHeadings] = useState<string[]>([]);
+    const [subjectHeadings, setSubjectHeadings] = useState<SubjectHeading[]>([]);
     const [loading, setLoading] = useState<boolean>(false)
 
 
@@ -51,24 +52,27 @@ const Result = forwardRef(( _, ref) => {
     }
 
     return (
+        
         <div className='flex lg:flex-row flex-col gap-4'>
             <div className='p-4 lg:w-[250px]'>
-                <div className='font-bold mb-2'>Subject Headings</div>
+                <div className='font-bold mb-2'>Topics</div>
                 <div className='flex flex-col gap-2 text-blue-600'>
                     { subjectHeadings.length > 0 ? (
                         subjectHeadings.map((heading, i) => (
-                            <Link className='text-[14px]' to={`#`} key={i}>{heading}</Link>
+                            <Link className='text-[14px]' to={`/subject-headings/${heading.slug}`} 
+                                key={i}>{heading.subject_heading}
+                            </Link>
                         ))
-                    ): (
-                        <div>No data...</div>
-                    )}
+                    ): null}
                    
                 </div>
             </div>
 
+           
+
             <div className='w-full py-4 px-6'>
-                <div className='mb-2 font-bold'>Result(s)</div>
-                {data.map((item: InfoProps, i) => (
+                <div className='mb-2 font-bold'>Digital Collections</div>
+                {data?.map((item: InfoProps, i) => (
                     <div key={i} className='mb-4'>
                         <h3 className='text-lg font-semibold text-blue-400'>
                             <Link to={`${item.source_url}/article/${item.slug}`}
