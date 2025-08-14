@@ -60,7 +60,7 @@ const Result = forwardRef(( _, ref) => {
                 <div className='flex flex-col gap-2 '>
                     { subjectHeadings.length > 0 ? (
                         subjectHeadings.map((heading, i) => (
-                            <Link className='text-[14px] text-blue-600' to={`/subject-headings/${heading.slug}`} 
+                            <Link className='text-[14px] text-blue-600 hover:underline' to={`/subject-headings/${heading.slug}`} 
                                 key={i}>{heading.subject_heading}
                             </Link>
                         ))
@@ -84,7 +84,7 @@ const Result = forwardRef(( _, ref) => {
                                 >{item.title}</Link>
                             </h3>
                             <div
-                                className='italic'
+                                className='text-sm text-gray-600'
                                 dangerouslySetInnerHTML={{ __html: item.description}}
                             />
 

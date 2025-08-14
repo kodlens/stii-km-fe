@@ -18,7 +18,7 @@ const MainPage = () => {
     //         const res = await axios.get(`get-sample`)
     //         return res.data
     //     }
-    // })
+    // })CSS (Centralize Science Search Engine)"
 
     useEffect(()=>{
         handleKeyDown()
@@ -31,31 +31,29 @@ const MainPage = () => {
 
     return (
         <>
-            <div className="h-[20px] bg-[#2c94d1]">
-
-            </div>
+            <div className="h-[20px] bg-[#2c94d1]"></div>
 
             <div className="mt-10 lg:max-w-7xl lg:mx-auto">
-                <Link to='/'>
-                    <img src="/images/header-logo.png" className="block mx-auto mb-6"/>
-                </Link>
+                <div className="p-4">
+                    <Link to='/'>
+                        <img src="/images/header-logo.png" className="block mx-auto mb-6"/>
+                    </Link>
+                </div>
                 
-                <div className="text-center text-2xl font-bold mb-2">Hanap mo bhe?</div>
+                <div className="text-center text-2xl font-bold mb-4">STII - Knowledge Manangement</div>
+
                 <div className="flex rounded-4xl overflow-hidden border border-red-400 mx-2">
                     <div className='flex-1'>
                         <input
                             type="text"
                             className="text-[#7a7a7a] px-6 py-4 w-full outline-0"
-                            //placeholder="Collections, Innovations, Technology, News ... CSS (Centrialize Science Search Engine)"
-                            placeholder="Hanap mo bhe? Tempered?..."
+                            placeholder="Collections, Innovations, Technology, News & Events, Topics, Trends..."
                             ref={searchRef}
-                           
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                     handleKeyDown();
                                 }
                             }}
-                          
                             autoComplete="off"
                         />
                     </div>
