@@ -2,27 +2,32 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
-import { BrowserRouter, Route, Routes } from 'react-router'
+import { BrowserRouter, Route, Routes } from 'react-router' // keep as-is to match your setup
 import {
-    QueryClient,
-    QueryClientProvider,
+  QueryClient,
+  QueryClientProvider,
 } from '@tanstack/react-query'
 import MainLayout from './pages/Layouts/MainLayout.tsx'
 import TopicIndex from './pages/Topics/TopicIndex.tsx'
+import ArticleView from './pages/ArticleView/ArticleViewIndex.tsx'
+  // ⬅️ add this
 
 const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <BrowserRouter>
-                <Routes>
-                    <Route element={<MainLayout />}>
-                        <Route index element={<App />} />
-                        <Route path="/topics/:subjectHeading" element={<TopicIndex />} />
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-        </QueryClientProvider>
-    </StrictMode>
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route index element={<App />} />
+            <Route path="/topics/:subjectHeading" element={<TopicIndex />} />
+
+            {/* ⬇️ New route for /view/article/:slug */}
+            <Route path="/view/article/:slug" element={<ArticleView />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </QueryClientProvider>
+  </StrictMode>
 )

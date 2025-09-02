@@ -48,6 +48,15 @@ const ResultIndex = forwardRef((_, ref) => {
     return <Loader />;
   }
 
+  const redirection = (i:any) =>{
+    if(i.source){
+        return `${i.source_url}/article/${i.slug}`
+    }else{
+        return `view/article/${i.slug}`
+    }
+    
+  }
+
   return (
     <div className="flex flex-col lg:flex-row gap-6">
       {/* Sidebar - Topics */}
@@ -106,7 +115,7 @@ const ResultIndex = forwardRef((_, ref) => {
                 {/* Title */}
                 <h3 className="text-lg font-semibold text-blue-600 mb-2">
                   <Link
-                    to={`${item.source_url}/article/${item.slug}`}
+                    to={redirection(item)}
                     target="_blank"
                     className="hover:underline"
                   >

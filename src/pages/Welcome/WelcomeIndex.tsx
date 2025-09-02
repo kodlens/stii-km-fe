@@ -29,9 +29,18 @@ export const WelcomeIndex = () => {
       {/* Hero + Search */}
       <section
         id="search"
-        className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-blue-50 to-white px-6"
+        className="bg-gradient-to-b from-blue-50 to-white px-6"
       >
-        <div className="w-full max-w-4xl space-y-6">
+        <div
+          className="
+            mx-auto
+            w-full max-w-4xl
+            min-h-[60vh] md:min-h-[70vh]     /* ⬅️ set hero height */
+            flex flex-col items-center justify-center
+            gap-6
+            py-12 md:py-16                    /* ⬅️ comfy vertical padding */
+          "
+        >
           {/* Hero */}
           <div className="text-center">
             <WelcomeHeroWithSearch />
@@ -42,16 +51,14 @@ export const WelcomeIndex = () => {
           </div>
 
           {/* Search Bar */}
-          <div className="flex flex-col sm:flex-row rounded-3xl overflow-hidden border border-gray-200 shadow-md bg-white">
+          <div className="w-full flex flex-col sm:flex-row rounded-3xl overflow-hidden border border-gray-200 shadow-md bg-white">
             <input
               type="text"
               ref={searchRef}
               placeholder="Search collections, innovations, technology, news & events, topics, trends..."
               className="flex-1 px-4 py-3 md:px-6 md:py-4 text-gray-700 outline-none placeholder:text-gray-400"
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleKeyDown()
-                }
+                if (e.key === "Enter") handleKeyDown()
               }}
               autoComplete="off"
             />
@@ -66,6 +73,7 @@ export const WelcomeIndex = () => {
           </div>
         </div>
       </section>
+
 
       {/* Conditional Sections */}
       {searchValue ? (
