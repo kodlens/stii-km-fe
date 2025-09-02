@@ -1,73 +1,86 @@
-import { useEffect, useRef } from "react";
-import { Search } from "lucide-react";
-import LogoWithTitle from "../../components/LogoWithTitle";
-import ResultIndex from "../Result/ResultIndex";
+import { useEffect, useRef } from "react"
+import { Search } from "lucide-react"
+import WelcomeHeroWithSearch from "../../components/WelcomeHeroWithSearch"
+import ResultIndex from "../Result/ResultIndex"
+import Subjects from "../../components/Subjects"
 
 export const WelcomeIndex = () => {
+  const searchRef = useRef<HTMLInputElement>(null)
+  const resultRef = useRef<{ handleSearch: (search: string) => void }>(null)
 
-    const searchRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    handleKeyDown()
+  }, [])
 
-    const resultRef = useRef<{ handleSearch: (search: string) => void }>(null);
+  const handleKeyDown = () => {
+    const value = searchRef.current?.value || ""
+    resultRef.current?.handleSearch(value)
+  }
 
-    // const { data, isFetching } = useQuery({
-    //     queryKey: ['search'],
-    //     queryFn: async () => {
-    //         const res = await axios.get(`get-sample`)
-    //         return res.data
-    //     }
-    // })CSS (Centralize Science Search Engine)"
+  return (
+    <>
+      {/* Hero + Search */}
+      <section
+        id="search"
+        className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-blue-50 to-white px-6"
+      >
+        <div className="w-full max-w-4xl space-y-6">
+          {/* Hero */}
+          <div className="text-center">
+            <WelcomeHeroWithSearch />
+          </div>
 
-    useEffect(() => {
-        handleKeyDown()
-    }, [])
+          <div className="text-center text-2xl md:text-3xl font-bold text-gray-800">
+            STII - Knowledge Management
+          </div>
 
-    const handleKeyDown = () => {
-        const value = searchRef.current?.value || "";
-        resultRef.current?.handleSearch(value);
-    };
+          {/* Search Bar */}
+          <div className="flex flex-col sm:flex-row rounded-3xl overflow-hidden border border-gray-200 shadow-md bg-white">
+            <input
+              type="text"
+              ref={searchRef}
+              placeholder="Search collections, innovations, technology, news & events, topics, trends..."
+              className="flex-1 px-4 py-3 md:px-6 md:py-4 text-gray-700 outline-none placeholder:text-gray-400"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleKeyDown()
+                }
+              }}
+              autoComplete="off"
+            />
+            <button
+              type="button"
+              onClick={handleKeyDown}
+              className="flex items-center justify-center gap-2 bg-danger px-6 py-3 md:py-4 text-white font-medium transition-all hover:bg-red-500 active:bg-red-600"
+            >
+              <Search size={18} />
+              <span>Search</span>
+            </button>
+          </div>
+        </div>
+      </section>
 
+      {/* Subjects Section */}
+      <section id="subjects" className="bg-gray-50 py-16">
+        <div className="lg:max-w-7xl mx-auto px-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">
+            Explore Subjects
+          </h2>
+          <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+            Browse through curated knowledge areas — find insights, topics, and
+            innovations.
+          </p>
+          <Subjects />
+        </div>
+      </section>
 
-    return (
-        <>
-            <div className="mt-4 lg:max-w-7xl lg:mx-auto">
-                
-                <div className="mx-4">
-                    <LogoWithTitle />
-                </div>
-
-                <div className="text-center text-2xl font-bold mb-4 mx-4">STII - Knowledge Manangement</div>
-
-                <div className="flex rounded-4xl overflow-hidden border border-red-400 mx-4">
-                    <div className='flex-1'>
-                        <input
-                            type="text"
-                            className="text-[#7a7a7a] px-4 py-2 md:px-6 md:py-4 w-full outline-0"
-                            placeholder="Collections, Innovations, Technology, News & Events, Topics, Trends..."
-                            ref={searchRef}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    handleKeyDown();
-                                }
-                            }}
-                            autoComplete="off"
-                        />
-                    </div>
-                    <button
-                        type="button"
-                        className="bg-danger md:py-4 pl-4 pr-6 text-white cursor-pointer active:bg-red-500 duration-150 hover:bg-red-400 ease-in-out outline-0]"
-                        onClick={() => {
-                            handleKeyDown();
-                        }}
-                    >
-                        <div className='flex gap-2 items-center'>  <Search size={18} /> Search</div>
-                    </button>
-                </div>
-
-            </div>
-
-            <div className="mt-10 lg:max-w-7xl lg:mx-auto">
-                <ResultIndex ref={resultRef} />
-            </div>
-        </>
-    )
+      {/* Results Section */}
+      <section className="py-16 lg:max-w-7xl lg:mx-auto px-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">
+          Search Results
+        </h2>
+        <ResultIndex ref={resultRef} />
+      </section>
+    </>
+  )
 }

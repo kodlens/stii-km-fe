@@ -1,5 +1,6 @@
 export interface SubjectHeading {
     data: any[];
+    id:number;
     subject_id: number;
     subject_heading:string;
     slug:string;

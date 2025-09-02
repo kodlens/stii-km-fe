@@ -1,15 +1,17 @@
-import { Header } from './Header'
+//import { Header } from './Header'
+import Navbar from '../../components/Navbar'
 import { Footer } from './Footer'
 import { Outlet } from 'react-router'
 
 const MainLayout = () => {
   return (
     <>
-        <Header />
-        <main>
-            <Outlet />
-        </main>
-        <Footer />
+      {/* <Header /> */}
+      <Navbar />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
     </>
   )
 }

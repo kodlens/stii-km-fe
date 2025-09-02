@@ -11,10 +11,11 @@ body {
     -ms-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
 }
 
 @theme {
-    --color-primary: #0071f8;
+    --color-primary: #003670;
     --color-danger: #ee626b;
     --color-fade-blue: #4a64e734;
 }
@@ -22,6 +23,7 @@ body {
 .active{
   @apply py-2 px-6 mx-2 bg-fade-blue rounded-2xl;
 }
+
 
 /* 
 @custom-variant dark (&:is(.dark *));
