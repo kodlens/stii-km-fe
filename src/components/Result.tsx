@@ -19,11 +19,11 @@ const Result = forwardRef(( _, ref) => {
     const [loading, setLoading] = useState<boolean>(false)
 
 
-    const truncateWords = (str: string, maxLength = 100) => {
-        if (!str) return "";
-        if (str.length <= maxLength) return str;
-        return str.slice(0, str.lastIndexOf(" ", maxLength)) + "…";
-      };
+    // const truncateWords = (str: string, maxLength = 100) => {
+    //     if (!str) return "";
+    //     if (str.length <= maxLength) return str;
+    //     return str.slice(0, str.lastIndexOf(" ", maxLength)) + "…";
+    // };
 
     const handleSearch = (search:string) => {
         setLoading(true)

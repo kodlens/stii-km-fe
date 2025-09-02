@@ -1,7 +1,5 @@
-import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
 import { Search } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 import Result from "../components/Result"
 import { Link } from "react-router"
 
