@@ -49,7 +49,7 @@ const ResultIndex = forwardRef((_, ref) => {
   }
 
   const redirection = (i:any) =>{
-    if(i.source){
+    if(i.source_url){
         return `${i.source_url}/article/${i.slug}`
     }else{
         return `view/article/${i.slug}`
