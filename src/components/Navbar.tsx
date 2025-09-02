@@ -4,7 +4,7 @@ const Navbar = () => {
             <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
                 {/* Logo / Brand */}
                 <a href="#" className="text-xl font-bold tracking-wide hover:text-white/80 transition text-white">
-                    KM-STII
+                    STII-KM
                 </a>
 
                 {/* Links */}

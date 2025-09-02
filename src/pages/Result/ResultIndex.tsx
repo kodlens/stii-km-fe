@@ -1,108 +1,146 @@
 import axios from 'axios';
-import  { useState, forwardRef, useImperativeHandle } from 'react';
+import { useState, forwardRef, useImperativeHandle } from 'react';
 import type { SubjectHeading } from '../../types/subjectHeading';
 import { config } from '../../config/config';
 import Loader from '../../components/loader/Loader';
 import { Link } from 'react-router';
+import { SearchX } from "lucide-react";
 
-
-
+// Temporary static subtopics
+const subTopics = [
+  { id: 1, title: "Introduction to the Topic" },
+  { id: 2, title: "Key Concepts" },
+  { id: 3, title: "Case Studies" },
+  { id: 4, title: "Further Reading" },
+];
 
 interface InfoProps {
-    title: string;
-    description: string;
-    slug:string;
-    source_url:string;
+  title: string;
+  description: string;
+  slug: string;
+  source_url: string;
 }
 
-const ResultIndex = forwardRef(( _, ref) => {
-    const [data, setData] = useState<any[]>([]);
-    const [subjectHeadings, setSubjectHeadings] = useState<SubjectHeading[]>([]);
-    const [loading, setLoading] = useState<boolean>(false)
+const ResultIndex = forwardRef((_, ref) => {
+  const [data, setData] = useState<any[]>([]);
+  const [subjectHeadings, setSubjectHeadings] = useState<SubjectHeading[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
+  const handleSearch = (search: string) => {
+    setLoading(true);
+    axios
+      .get(`${config.baseUri}/api/search/s?key=${search}`)
+      .then((res) => {
+        setData(res.data.results.data);
+        setSubjectHeadings(res.data.related_subject_headings);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
-    // const truncateWords = (str: string, maxLength = 100) => {
-    //     if (!str) return "";
-    //     if (str.length <= maxLength) return str;
-    //     return str.slice(0, str.lastIndexOf(" ", maxLength)) + "…";
-    // };
+  useImperativeHandle(ref, () => ({
+    handleSearch,
+  }));
 
-    const handleSearch = (search:string) => {
-        setLoading(true)
-        console.log('from result component')
-        axios.get(`${config.baseUri}/api/search/s?key=${search}`).then(res => {
-            setData(res.data.results.data); // adjust if structure differs
-            setSubjectHeadings(res.data.related_subject_headings);
-            setLoading(false)
+  if (loading) {
+    return <Loader />;
+  }
 
-        }).catch(err => {
-            console.log(err.response.message);
-            setLoading(false)
-        });
-    };
-
-    // Expose methods to parent
-    // useImperativeHandle(ref, (search) => (
-    //     handleSearch(search)
-    // ));
-
-    useImperativeHandle(ref, ()=>({
-        handleSearch
-    }))
-
-    if(loading){
-        return <Loader />
-    }
-
-    return (
-        
-        <div className='flex lg:flex-row flex-col gap-4'>
-            <div className='p-4 lg:w-[250px]'>
-                <div className='font-bold mb-2'>Topics</div>
-                <div className='flex flex-col gap-2 '>
-                    { subjectHeadings.length > 0 ? (
-                        subjectHeadings.map((heading, i) => (
-                            <Link className='text-[14px] text-blue-600 hover:underline' to={`/topics/${heading.slug}`} 
-                                key={i}>{heading.subject_heading}
-                            </Link>
-                        ))
-                    ): (
-                        <div className='italic text-sm'>No resulst found...</div>
-                    )}
-                   
-                </div>
-            </div>
-
-           
-
-            <div className='w-full py-4 px-6'>
-                <div className='mb-2 font-bold'>Digital Collections</div>
-                { data?.length > 0 ? (
-                    data?.map((item: InfoProps, i) => (
-                        <div key={i} className='mb-4'>
-                            <h3 className='text-lg font-semibold text-blue-400'>
-                                <Link className='hover:underline' to={`${item.source_url}/article/${item.slug}`}
-                                    target='_blank'
-                                >{item.title}</Link>
-                            </h3>
-                            <div
-                                className='text-sm text-gray-600'
-                                dangerouslySetInnerHTML={{ __html: item.description}}
-                            />
-
-                            { item.source_url ? (
-                                <Link className='text-sm text-blue-500' to={item.source_url}>{item.source_url}</Link>
-                            ) : null
-                            }
-                        </div>
-                    ))
-                ) : (
-                    <div className='italic text-sm'>No resulst found...</div>
-                ) }
-                
-            </div>
+  return (
+    <div className="flex flex-col lg:flex-row gap-6">
+      {/* Sidebar - Topics */}
+      <aside className="lg:w-64 w-full bg-white shadow rounded-xl border border-gray-100 p-6 space-y-6">
+        {/* Topics */}
+        <div>
+          <h2 className="font-semibold text-gray-800 mb-4">📂 Topics</h2>
+          <div className="flex flex-col gap-3">
+            {subjectHeadings.length > 0 ? (
+              subjectHeadings.map((heading, i) => (
+                <Link
+                  key={i}
+                  to={`/topics/${heading.slug}`}
+                  className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition"
+                >
+                  {heading.subject_heading}
+                </Link>
+              ))
+            ) : (
+              <div className="flex items-center gap-2 text-gray-500 italic text-sm">
+                <SearchX size={16} /> No topics found
+              </div>
+            )}
+          </div>
         </div>
-    );
+
+        {/* Subtopics */}
+        <div>
+          <h2 className="font-semibold text-gray-800 mb-4">📑 Subtopics</h2>
+          <ul className="space-y-2 text-sm text-gray-600">
+            {subTopics.map((sub) => (
+              <li
+                key={sub.id}
+                className="pl-2 border-l-2 border-blue-200 hover:border-blue-500 hover:text-blue-700 transition"
+              >
+                {sub.title}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </aside>
+
+      {/* Main Results */}
+      <main className="flex-1">
+        <h2 className="mb-4 text-xl font-bold text-gray-800">
+          📚 Digital Collections
+        </h2>
+
+        {data?.length > 0 ? (
+          <div className="grid gap-6">
+            {data.map((item: InfoProps, i) => (
+              <div
+                key={i}
+                className="p-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition bg-white"
+              >
+                {/* Title */}
+                <h3 className="text-lg font-semibold text-blue-600 mb-2">
+                  <Link
+                    to={`${item.source_url}/article/${item.slug}`}
+                    target="_blank"
+                    className="hover:underline"
+                  >
+                    {item.title}
+                  </Link>
+                </h3>
+
+                {/* Description */}
+                <div
+                  className="text-sm text-gray-700 mb-3 line-clamp-3"
+                  dangerouslySetInnerHTML={{ __html: item.description }}
+                />
+
+                {/* Source */}
+                {item.source_url && (
+                  <Link
+                    to={item.source_url}
+                    target="_blank"
+                    className="text-xs text-blue-500 hover:underline"
+                  >
+                    {item.source_url}
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 text-gray-500 italic text-sm mt-6">
+            <SearchX size={18} /> No results found
+          </div>
+        )}
+      </main>
+    </div>
+  );
 });
 
 export default ResultIndex;
