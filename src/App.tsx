@@ -1,12 +1,11 @@
-import MainPage from './pages/MainPage'
+import { WelcomeIndex } from "./pages/Welcome/WelcomeIndex"
 
-function App() {
+const App = () => {
 
-  return (
-    <div className={''}>
-      <MainPage />
-    </div>
-  )
+
+    return (
+       <WelcomeIndex />
+    )
 }
 
 export default App

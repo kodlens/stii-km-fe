@@ -1,9 +1,11 @@
 import axios from 'axios';
 import  { useState, forwardRef, useImperativeHandle } from 'react';
-import { config } from '../config/config';
+import type { SubjectHeading } from '../../types/subjectHeading';
+import { config } from '../../config/config';
+import Loader from '../../components/loader/Loader';
 import { Link } from 'react-router';
-import Loader from './loader/Loader';
-import type { SubjectHeading } from '../types/subjectHeading';
+
+
 
 
 interface InfoProps {
@@ -13,7 +15,7 @@ interface InfoProps {
     source_url:string;
 }
 
-const Result = forwardRef(( _, ref) => {
+const ResultIndex = forwardRef(( _, ref) => {
     const [data, setData] = useState<any[]>([]);
     const [subjectHeadings, setSubjectHeadings] = useState<SubjectHeading[]>([]);
     const [loading, setLoading] = useState<boolean>(false)
@@ -60,7 +62,7 @@ const Result = forwardRef(( _, ref) => {
                 <div className='flex flex-col gap-2 '>
                     { subjectHeadings.length > 0 ? (
                         subjectHeadings.map((heading, i) => (
-                            <Link className='text-[14px] text-blue-600 hover:underline' to={`/subject-headings/${heading.slug}`} 
+                            <Link className='text-[14px] text-blue-600 hover:underline' to={`/topics/${heading.slug}`} 
                                 key={i}>{heading.subject_heading}
                             </Link>
                         ))
@@ -103,4 +105,4 @@ const Result = forwardRef(( _, ref) => {
     );
 });
 
-export default Result;
+export default ResultIndex;
