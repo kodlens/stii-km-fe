@@ -8,12 +8,12 @@ import { SearchX } from "lucide-react";
 import type { Subject } from '../../types/subject';
 
 // Temporary static subtopics
-const subTopics = [
-  { id: 1, title: "Introduction to the Topic" },
-  { id: 2, title: "Key Concepts" },
-  { id: 3, title: "Case Studies" },
-  { id: 4, title: "Further Reading" },
-];
+// const subTopics = [
+//   { id: 1, title: "Introduction to the Topic" },
+//   { id: 2, title: "Key Concepts" },
+//   { id: 3, title: "Case Studies" },
+//   { id: 4, title: "Further Reading" },
+// ];
 
 interface InfoProps {
   title: string;
