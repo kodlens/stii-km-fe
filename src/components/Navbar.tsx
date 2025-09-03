@@ -15,12 +15,12 @@ const Navbar = () => {
                     >
                         Search
                     </a>
-                    <a
+                    {/* <a
                         href="#subjects"
                         className="hover:text-white/80 transition-colors text-sm font-medium"
                     >
                         Subjects
-                    </a>
+                    </a> */}
                 </div>
             </div>
         </nav>
