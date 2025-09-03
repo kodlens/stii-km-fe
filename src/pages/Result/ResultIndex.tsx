@@ -5,6 +5,7 @@ import { config } from '../../config/config';
 import Loader from '../../components/loader/Loader';
 import { Link } from 'react-router';
 import { SearchX } from "lucide-react";
+import type { Subject } from '../../types/subject';
 
 // Temporary static subtopics
 const subTopics = [
@@ -24,6 +25,7 @@ interface InfoProps {
 const ResultIndex = forwardRef((_, ref) => {
   const [data, setData] = useState<any[]>([]);
   const [subjectHeadings, setSubjectHeadings] = useState<SubjectHeading[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSearch = (search: string) => {
@@ -32,7 +34,8 @@ const ResultIndex = forwardRef((_, ref) => {
       .get(`${config.baseUri}/api/search/s?key=${search}`)
       .then((res) => {
         setData(res.data.results.data);
-        setSubjectHeadings(res.data.related_subject_headings);
+        setSubjectHeadings(res.data.subject_headings);
+        setSubjects(res.data.subjects);
         setLoading(false);
       })
       .catch(() => {
@@ -63,16 +66,16 @@ const ResultIndex = forwardRef((_, ref) => {
       <aside className="lg:w-64 w-full bg-white shadow rounded-xl border border-gray-100 p-6 space-y-6">
         {/* Topics */}
         <div>
-          <h2 className="font-semibold text-gray-800 mb-4">📂 Topics</h2>
+          <h2 className="font-semibold text-gray-800 mb-4">📂 Subjects</h2>
           <div className="flex flex-col gap-3">
-            {subjectHeadings.length > 0 ? (
-              subjectHeadings.map((heading, i) => (
+            {subjects.length > 0 ? (
+              subjects.map((subject, i) => (
                 <Link
                   key={i}
-                  to={`/topics/${heading.slug}`}
+                  to={`/subjects/${subject.slug}`}
                   className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition"
                 >
-                  {heading.subject_heading}
+                  {subject.subject} ({subject.count})
                 </Link>
               ))
             ) : (
@@ -85,14 +88,15 @@ const ResultIndex = forwardRef((_, ref) => {
 
         {/* Subtopics */}
         <div>
-          <h2 className="font-semibold text-gray-800 mb-4">📑 Subtopics</h2>
+          <h2 className="font-semibold text-gray-800 mb-4">📑 Subject Headings</h2>
           <ul className="space-y-2 text-sm text-gray-600">
-            {subTopics.map((sub) => (
+            {subjectHeadings.map((subH) => (
               <li
-                key={sub.id}
+                key={subH.id}
                 className="pl-2 border-l-2 border-blue-200 hover:border-blue-500 hover:text-blue-700 transition"
               >
-                {sub.title}
+                <Link to={`/subject-headings/${subH.slug}`}>{subH.subject_heading} ( {subH.count} )</Link>
+                
               </li>
             ))}
           </ul>
