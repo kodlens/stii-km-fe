@@ -3,7 +3,7 @@ import { useParams } from 'react-router'
 import Loader from '../../components/loader/Loader';
 import { config } from '../../config/config';
 import axios from 'axios';
-import { article } from 'framer-motion/client';
+//import { article } from 'framer-motion/client';
 import type { Article } from '../../types/article';
 import { Link } from 'react-router';
 
@@ -25,6 +25,14 @@ const SubjectIndex = () => {
         return (
             <div className='min-h-screen'>
                 <Loader />
+            </div>
+        )
+    }
+
+    if (error) {
+        return (
+            <div className='min-h-screen'>
+                Error!!
             </div>
         )
     }
