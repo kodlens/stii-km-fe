@@ -57,7 +57,6 @@ const ResultIndex = forwardRef((_, ref) => {
     }else{
         return `view/article/${i.slug}`
     }
-    
   }
 
   return (

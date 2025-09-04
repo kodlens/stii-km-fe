@@ -8,8 +8,9 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import MainLayout from './pages/Layouts/MainLayout.tsx'
-import TopicIndex from './pages/Topics/TopicIndex.tsx'
 import ArticleView from './pages/ArticleView/ArticleViewIndex.tsx'
+import SubjectIndex from './pages/Subjects/SubjectIndex.tsx'
+import SubjectHeadingIndex from './pages/SubjectHeading/SubjectHeadingIndex.tsx'
   // ⬅️ add this
 
 const queryClient = new QueryClient()
@@ -21,8 +22,8 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route element={<MainLayout />}>
             <Route index element={<App />} />
-            <Route path="/topics/:subjectHeading" element={<TopicIndex />} />
-
+            <Route path="/subjects/:subject" element={<SubjectIndex />} />
+            <Route path="/subject-headings/:subjectHeading" element={<SubjectHeadingIndex />} />
             {/* ⬇️ New route for /view/article/:slug */}
             <Route path="/view/article/:slug" element={<ArticleView />} />
           </Route>

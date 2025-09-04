@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { ChevronRight } from 'lucide-react'
 import type { Subject } from '../types/subject'
 import { motion } from 'framer-motion'
+import { Link } from 'react-router'
 
 const Subjects = () => {
   const {
@@ -76,26 +77,29 @@ const Subjects = () => {
           {/* Header */}
           <div className="bg-gradient-to-r from-primary to-primary/80 p-4">
             <h3 className="text-lg font-bold text-white tracking-wide">
-              {item.subject}
+              <Link to={`/subjects/${item.slug}`}>{item.subject}</Link>
             </h3>
           </div>
 
           {/* Body */}
-          <div className="p-4">
-            <ul className="space-y-2">
+          <div className="p-2">
+            <ul className="">
               {item.subject_headings?.map((sh) => (
                 <motion.li
                   key={sh.id}
-                  className="flex items-start gap-2 group hover:bg-gray-50 p-2 rounded-md transition"
-                  
+                  className="flex text-sm items-start gap-2 group hover:bg-gray-200 rounded-md p-2 transition"
                 >
-                  <ChevronRight
-                    size={18}
-                    className="text-primary mt-[2px] group-hover:translate-x-1 transition"
-                  />
-                  <span className="flex-1 text-gray-700">
-                    {sh.subject_heading}
-                  </span>
+                  <Link to={`/subject-headings/${sh.slug}`} className='flex gap-2'>
+                    <ChevronRight
+                      size={18}
+                      className="text-primary mt-[2px] group-hover:translate-x-1 transition"
+                    />
+                    <span className="flex-1 text-gray-700">
+                      {sh.subject_heading}
+                      {sh.subject_heading}
+
+                    </span>
+                  </Link>
                 </motion.li>
               ))}
             </ul>
