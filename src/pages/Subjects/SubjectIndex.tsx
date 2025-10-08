@@ -16,6 +16,7 @@ const SubjectIndex = ( ) => {
     
 
     const { data, isFetching, error } = useQuery<Article[]>({
+        refetchOnWindowFocus: false,
         queryKey: ['article'],
         queryFn: async () => {
             const res = await axios.get(`${config.baseUri}/api/subject/articles-by-subject?subject=${subject}&search=${search}`)
@@ -52,7 +53,7 @@ const SubjectIndex = ( ) => {
 
 
     return (
-        <div className='mt-20 p-6 flex max-w-7xl mx-auto h-min-screen'>
+        <div className='mt-20 p-6 flex max-w-7xl mx-auto min-h-screen'>
             <main className="flex-1">
                 <h2 className="mb-4 text-xl font-bold text-gray-800">
                     📚 Digital Collections

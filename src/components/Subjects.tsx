@@ -13,6 +13,7 @@ const Subjects = () => {
     isFetching,
   } = useQuery({
     queryKey: ['subjects'],
+    refetchOnWindowFocus: false,
     queryFn: async () => {
       const res = await axios.get<Subject[]>(
         `${config.baseUri}/api/load-subjects`
