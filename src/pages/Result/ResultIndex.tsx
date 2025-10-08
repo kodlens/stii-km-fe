@@ -27,9 +27,12 @@ const ResultIndex = forwardRef((_, ref) => {
   const [subjectHeadings, setSubjectHeadings] = useState<SubjectHeading[]>([]);
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [search, setSearch] = useState('')
+
 
   const handleSearch = (search: string) => {
     setLoading(true);
+    setSearch(search)
     axios
       .get(`${config.baseUri}/api/search/s?key=${search}`)
       .then((res) => {
@@ -71,7 +74,8 @@ const ResultIndex = forwardRef((_, ref) => {
               subjects.map((subject, i) => (
                 <Link
                   key={i}
-                  to={`/subjects/${subject.slug}`}
+                  target='_blank'
+                  to={`/subjects/${subject.slug}/${search}`}
                   className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition"
                 >
                   {subject.subject} ({subject.count})
@@ -107,6 +111,10 @@ const ResultIndex = forwardRef((_, ref) => {
         <h2 className="mb-4 text-xl font-bold text-gray-800">
           📚 Digital Collections
         </h2>
+
+         <div className='my-4'>
+            Search: {search}
+          </div>
 
         {data?.length > 0 ? (
           <div className="grid gap-6">

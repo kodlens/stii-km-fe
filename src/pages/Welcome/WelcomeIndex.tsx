@@ -35,7 +35,7 @@ export const WelcomeIndex = () => {
           className="
             mx-auto
             w-full max-w-4xl
-            min-h-[60vh] md:min-h-[70vh]     /* ⬅️ set hero height */
+            min-h-[60vh] md:min-h-[50vh]     /* ⬅️ set hero height */
             flex flex-col items-center justify-center
             gap-6
             py-12 md:py-16                    /* ⬅️ comfy vertical padding */

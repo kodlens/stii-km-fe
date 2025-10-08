@@ -22,7 +22,7 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route element={<MainLayout />}>
             <Route index element={<App />} />
-            <Route path="/subjects/:subject" element={<SubjectIndex />} />
+            <Route path="/subjects/:subject/:search" element={<SubjectIndex />} />
             <Route path="/subject-headings/:subjectHeading" element={<SubjectHeadingIndex />} />
             {/* ⬇️ New route for /view/article/:slug */}
             <Route path="/view/article/:slug" element={<ArticleView />} />

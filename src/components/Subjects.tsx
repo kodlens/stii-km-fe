@@ -96,8 +96,6 @@ const Subjects = () => {
                     />
                     <span className="flex-1 text-gray-700">
                       {sh.subject_heading}
-                      {sh.subject_heading}
-
                     </span>
                   </Link>
                 </motion.li>

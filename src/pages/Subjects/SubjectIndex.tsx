@@ -1,21 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router'
-import Loader from '../../components/loader/Loader';
 import { config } from '../../config/config';
 import axios from 'axios';
 //import { article } from 'framer-motion/client';
 import type { Article } from '../../types/article';
 import { Link } from 'react-router';
+import Skeleton from '../../components/Skeleton';
 
-const SubjectIndex = () => {
+const SubjectIndex = ( ) => {
 
-    const { subject } = useParams<{ subject: string }>();
+    const { subject, search } = useParams<{ subject: string, search: string }>();
 
+
+    console.log(subject, search);
+    
 
     const { data, isFetching, error } = useQuery<Article[]>({
         queryKey: ['article'],
         queryFn: async () => {
-            const res = await axios.get(`${config.baseUri}/api/subject/get-articles-by-subject/${subject}`)
+            const res = await axios.get(`${config.baseUri}/api/subject/articles-by-subject?subject=${subject}&search=${search}`)
 
             return res.data
         }
@@ -23,8 +26,10 @@ const SubjectIndex = () => {
 
     if (isFetching) {
         return (
-            <div className='min-h-screen'>
-                <Loader />
+            <div className='min-h-screen  w-7xl md:mx-auto mx-2'>
+                <div className='mt-20'>
+                    <Skeleton />
+                </div>
             </div>
         )
     }
@@ -47,11 +52,21 @@ const SubjectIndex = () => {
 
 
     return (
-        <div className='mt-20 p-6 flex max-w-7xl'>
+        <div className='mt-20 p-6 flex max-w-7xl mx-auto h-min-screen'>
             <main className="flex-1">
                 <h2 className="mb-4 text-xl font-bold text-gray-800">
                     📚 Digital Collections
                 </h2>
+                
+                <div className='my-4'>
+                    <div>
+                        Subject: { data ? data[0]?.subject : '' }
+                    </div>
+
+                    <div className=''>
+                        Search: { search }
+                    </div>
+                </div>
 
 
                 <div className="grid gap-6">
