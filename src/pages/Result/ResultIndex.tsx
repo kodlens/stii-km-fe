@@ -18,6 +18,7 @@ import type { Subject } from '../../types/subject';
 interface InfoProps {
   title: string;
   description: string;
+  description_text: string;
   slug: string;
   source_url: string;
 }
@@ -58,7 +59,7 @@ const ResultIndex = forwardRef((_, ref) => {
     if(i.source_url){
         return `${i.source_url}/article/${i.slug}`
     }else{
-        return `view/article/${i.slug}`
+        return `/view/article/${i.slug}`
     }
   }
 

@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { config } from "../../config/config";
 import Loader from "../../components/loader/Loader";
 import { ChevronLeft, ExternalLink, Globe2, UserRound } from "lucide-react";
+import './style.css'
 
 type Info = {
   title: string;
@@ -156,7 +157,7 @@ export default function ArticleView() {
 
         {/* Content */}
         <div
-          className="prose prose-sm md:prose lg:prose-lg max-w-none mt-6 text-gray-800"
+          className="prose prose-sm md:prose lg:prose-lg max-w-none mt-6 text-gray-800 ck-content"
           // Your `description` already contains sanitized/controlled HTML from your DB.
           dangerouslySetInnerHTML={{ __html: article.description }}
         />
