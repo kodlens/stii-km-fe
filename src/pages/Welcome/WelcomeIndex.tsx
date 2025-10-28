@@ -1,17 +1,16 @@
-import { useEffect, useRef, useState } from "react"
+import {  useState } from "react"
 import { Search } from "lucide-react"
 import WelcomeHeroWithSearch from "../../components/WelcomeHeroWithSearch"
-import ResultIndex from "../Result/ResultIndex"
 import Subjects from "../../components/Subjects"
 import { useNavigate } from "react-router";
 
 
 export const WelcomeIndex = () => {
-    const searchRef = useRef<HTMLInputElement>(null)
-    const resultRef = useRef<{ handleSearch: (search: string) => void }>(null)
+    // const searchRef = useRef<HTMLInputElement>(null)
+    // const resultRef = useRef<{ handleSearch: (search: string) => void }>(null)
     //const resultSectionRef = useRef<HTMLElement>(null)
 
-    const [searchValue, setSearchValue] = useState<string>("")
+    // const [searchValue, setSearchValue] = useState<string>("")
     const [search, setSearch] = useState<string>("")
 
     const navigate = useNavigate();
