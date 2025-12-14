@@ -1,33 +1,31 @@
-import {  useState } from "react"
+import { useRef } from "react"
 import { Search } from "lucide-react"
 import WelcomeHeroWithSearch from "../../components/WelcomeHeroWithSearch"
+//import ResultIndex from "../Result/ResultIndex"
 import Subjects from "../../components/Subjects"
-import { useNavigate } from "react-router";
-
+import { useNavigate } from "react-router"
 
 export const WelcomeIndex = () => {
-    // const searchRef = useRef<HTMLInputElement>(null)
+    const searchRef = useRef<HTMLInputElement>(null)
     // const resultRef = useRef<{ handleSearch: (search: string) => void }>(null)
-    //const resultSectionRef = useRef<HTMLElement>(null)
+    // const resultSectionRef = useRef<HTMLElement>(null)
 
     // const [searchValue, setSearchValue] = useState<string>("")
-    const [search, setSearch] = useState<string>("")
 
-    const navigate = useNavigate();
-
+    const navigate = useNavigate()
 
     // useEffect(() => {
-    //     if (searchValue) {
-    //         resultRef.current?.handleSearch(searchValue)
-    //         // Scroll to results
-    //         resultSectionRef.current?.scrollIntoView({ behavior: "smooth" })
-    //     }
+    //   if (searchValue) {
+    //     resultRef.current?.handleSearch(searchValue)
+    //     // Scroll to results
+    //     resultSectionRef.current?.scrollIntoView({ behavior: "smooth" })
+    //   }
     // }, [searchValue])
 
     const handleKeyDown = () => {
-        //const value = searchRef.current?.value.trim() || ""
+        const value = searchRef.current?.value.trim() || ""
         //setSearchValue(value)
-        navigate(`/search/${encodeURIComponent(search)}`);
+        navigate(`/search?key=${encodeURIComponent(value)}&subj=&sh=`);
     }
 
     return (
@@ -44,7 +42,8 @@ export const WelcomeIndex = () => {
                         min-h-[60vh] md:min-h-[50vh]
                         flex flex-col items-center justify-center
                         gap-6
-                        py-12 md:py-16"
+                        py-12 md:py-16
+                    "
                 >
                     {/* Hero */}
                     <div className="text-center">
@@ -56,16 +55,15 @@ export const WelcomeIndex = () => {
                     </div>
 
                     {/* Search Bar */}
-                    <div className="w-full flex flex-col sm:flex-row rounded-3xl overflow-hidden border border-gray-200 shadow-md bg-white">
+                    {/* <div className="w-full flex flex-col sm:flex-row rounded-3xl overflow-hidden border border-gray-200 shadow-md bg-white">
                         <input
                             type="text"
-                            value={search}
+                            ref={searchRef}
                             placeholder="Search collections, innovations, technology, news & events, topics, trends..."
                             className="flex-1 px-4 py-3 md:px-6 md:py-4 text-gray-700 outline-none placeholder:text-gray-400"
                             onKeyDown={(e) => {
                                 if (e.key === "Enter") handleKeyDown()
                             }}
-                            onChange={(e)=>setSearch(e.target.value)}
                             autoComplete="off"
                         />
                         <button
@@ -76,15 +74,63 @@ export const WelcomeIndex = () => {
                             <Search size={18} />
                             <span>Search</span>
                         </button>
+                    </div> */}
+
+                    <div className="w-full relative flex items-center">
+                        <Search className="absolute left-4 text-gray-400" size={20} />
+                        <input
+                            type="text"
+                            placeholder="Search collections, technology, news, topics…"
+                            className="w-full pl-12 pr-32 py-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 text-gray-800"
+                            ref={searchRef}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") handleKeyDown()
+                            }}
+                            autoComplete="off"
+                        />
+                        <button
+                            onClick={handleKeyDown}
+                            className="absolute right-2 px-6 py-2 rounded-full bg-danger text-white font-medium hover:bg-red-600 transition"
+                        >
+                            Search
+                        </button>
                     </div>
+
                 </div>
             </section>
 
 
+            {/* Conditional Sections */}
+            {/* {searchValue ? (
+        <section
+          ref={resultSectionRef}
+          id="results"
+          className="py-16 lg:max-w-7xl lg:mx-auto px-6"
+        >
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center">
+            Search Results
+          </h2>
+          <ResultIndex ref={resultRef} />
+        </section>
+      ) : (
+        <section id="subjects" className="bg-gray-50 py-16">
+          <div className="lg:max-w-7xl mx-auto px-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">
+              Explore Class
+            </h2>
+            <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+              Browse through curated knowledge areas — find insights, topics, and
+              innovations.
+            </p>
+            <Subjects />
+          </div>
+        </section>
+      )} */}
+
             <section id="subjects" className="bg-gray-50 py-16">
                 <div className="lg:max-w-7xl mx-auto px-6">
                     <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">
-                        Explore Subjects
+                        Explore Our Classes
                     </h2>
                     <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
                         Browse through curated knowledge areas — find insights, topics, and

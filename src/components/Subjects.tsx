@@ -65,9 +65,10 @@ const Subjects = () => {
       }}
     >
       {subjects?.map((item) => (
+        // card
         <motion.div
           key={item.id}
-          className="rounded-2xl border border-gray-100 shadow-md bg-white overflow-hidden"
+          className="rounded-2xl border border-gray-100 shadow-md bg-white overflow-hidden h-[400px] relative"
           variants={{
             hidden: { opacity: 0, y: 30 },
             visible: { opacity: 1, y: 0 },
@@ -78,19 +79,19 @@ const Subjects = () => {
           {/* Header */}
           <div className="bg-gradient-to-r from-primary to-primary/80 p-4">
             <h3 className="text-lg font-bold text-white tracking-wide">
-              <Link to={`/subjects/${item.slug}`}>{item.subject}</Link>
+              <Link to={`/subject/search?key=&subj=${item.slug}&sh=`}>{item.subject}</Link>
             </h3>
           </div>
 
           {/* Body */}
           <div className="p-2">
             <ul className="">
-              {item.subject_headings?.map((sh) => (
+              {item.subject_headings?.slice(0, 5).map((sh) => (
                 <motion.li
                   key={sh.id}
                   className="flex text-sm items-start gap-2 group hover:bg-gray-200 rounded-md p-2 transition"
                 >
-                  <Link to={`/subject-headings/${sh.slug}`} className='flex gap-2'>
+                  <Link to={`/subject/search?key=&subj=${item.slug}&sh=${sh.slug}`} className='flex gap-2'>
                     <ChevronRight
                       size={18}
                       className="text-primary mt-[2px] group-hover:translate-x-1 transition"
@@ -102,6 +103,12 @@ const Subjects = () => {
                 </motion.li>
               ))}
             </ul>
+
+            { item.subject_headings.length > 5 ? (
+              <div>
+                <button className='text-blue-900 hover:text-blue-700 hover:cursor-pointer px-4 py-4'>See more...</button>
+              </div>
+            ) : null }
           </div>
         </motion.div>
       ))}

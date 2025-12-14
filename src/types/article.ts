@@ -3,11 +3,17 @@ export type Article = {
     id: number;
     count:number;
     slug:string;
-    subject:string;
+    subject?:string;
+    subject_heading?:string;
     title:string;
     description:string;
+    description_text:string;
     source_url:string;
+    publish_date?: Date;
+    content_type?: string;
+    region?: string;
     active:number;
     created_at:Date;
     updated_at:Date;
+    
 }

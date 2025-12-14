@@ -10,8 +10,7 @@ import {
 import MainLayout from './pages/Layouts/MainLayout.tsx'
 import ArticleView from './pages/ArticleView/ArticleViewIndex.tsx'
 import SubjectIndex from './pages/Subjects/SubjectIndex.tsx'
-import SubjectHeadingIndex from './pages/SubjectHeading/SubjectHeadingIndex.tsx'
-import SearchIndex from './pages/Search/SearchIndex.tsx'
+import SearchResultIndex from './pages/SearchResult/SearchResultIndex.tsx'
   // ⬅️ add this
 
 const queryClient = new QueryClient()
@@ -23,9 +22,10 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route element={<MainLayout />}>
             <Route index element={<App />} />
-            <Route path="/subjects/:subject/:search" element={<SubjectIndex />} />
-            <Route path="/search/:key" element={<SearchIndex />} />
-            <Route path="/subject-headings/:subjectHeading" element={<SubjectHeadingIndex />} />
+            <Route path="/search" element={<SearchResultIndex />} />
+            <Route path="/subject/search" element={<SubjectIndex />} />
+            {/* <Route path="/subject-headings/search" element={<SubjectHeadingIndex />} /> */}
+        
             {/* ⬇️ New route for /view/article/:slug */}
             <Route path="/view/article/:slug" element={<ArticleView />} />
           </Route>

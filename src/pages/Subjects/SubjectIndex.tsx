@@ -1,114 +1,118 @@
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router'
-import { config } from '../../config/config';
-import axios from 'axios';
-//import { article } from 'framer-motion/client';
-import type { Article } from '../../types/article';
-import { Link } from 'react-router';
-import Skeleton from '../../components/Skeleton';
+import { useLocation } from 'react-router';
+import { Search } from 'lucide-react';
+import { useRef, useState } from 'react';
 
-const SubjectIndex = ( ) => {
+import SubjectLabel, { type SubjectLabelRef } from './partials/SubjectLabel';
+import SubjectHeadingLabel, { type SubjectHeadingRef } from './partials/SubjectHeadingLabel';
 
-    const { subject, search } = useParams<{ subject: string, search: string }>();
+import SearchResultLatest, { type SearchResultRefLatest } from './partials/SearchResultLatest';
+import SearchResultOthers, { type SearchResultRefOthers } from './partials/SearchResultOthers';
 
+const SubjectIndex = () => {
+    const { search } = useLocation();
+    const query = new URLSearchParams(search);
 
-    console.log(subject, search);
-    
+    const paramSubject = query.get('subj') ?? '';
+    const paramSh = query.get('sh') ?? '';
 
-    const { data, isFetching, error } = useQuery<Article[]>({
-        refetchOnWindowFocus: false,
-        queryKey: ['article'],
-        queryFn: async () => {
-            const res = await axios.get(`${config.baseUri}/api/subject/articles-by-subject?subject=${subject}&search=${search}`)
+    const [textSearch, setTextSearch] = useState('');
 
-            return res.data
-        }
-    })
+    const searchRefLatest = useRef<SearchResultRefLatest>(null);
+    const searchRefOthers = useRef<SearchResultRefOthers>(null);
+    const subjectRef = useRef<SubjectLabelRef>(null);
+    const subjectHeadingRef = useRef<SubjectHeadingRef>(null);
 
-    if (isFetching) {
-        return (
-            <div className='min-h-screen  w-7xl md:mx-auto mx-2'>
-                <div className='mt-20'>
-                    <Skeleton />
-                </div>
-            </div>
-        )
-    }
-
-    if (error) {
-        return (
-            <div className='min-h-screen'>
-                Error!!
-            </div>
-        )
-    }
-
-    const redirection = (i: any) => {
-        if (i.source_url) {
-            return `${i.source_url}/article/${i.slug}`
-        } else {
-            return `view/article/${i.slug}`
-        }
-    }
-
+    const handleSearch = () => {
+        searchRefLatest.current?.reload();
+        searchRefOthers.current?.reload();
+        subjectRef.current?.reload();
+        subjectHeadingRef.current?.reload();
+    };
 
     return (
-        <div className='mt-20 p-6 flex max-w-7xl mx-auto min-h-screen'>
-            <main className="flex-1">
-                <h2 className="mb-4 text-xl font-bold text-gray-800">
-                    📚 Digital Collections
-                </h2>
-                
-                <div className='my-4'>
-                    <div>
-                        Subject: { data ? data[0]?.subject : '' }
-                    </div>
+        <div className="min-h-screen max-w-7xl mx-auto px-4 py-6">
 
-                    <div className=''>
-                        Search: { search }
-                    </div>
+            {/* 🔍 Search Bar */}
+            <div className="mb-6">
+                <div className="relative flex items-center">
+                    <Search className="absolute left-4 text-gray-400" size={20} />
+                    <input
+                        type="text"
+                        placeholder="Search collections, technology, news, topics…"
+                        className="w-full pl-12 pr-32 py-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-red-400 text-gray-800"
+                        value={textSearch}
+                        onChange={(e) => setTextSearch(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                        autoComplete="off"
+                    />
+                    <button
+                        onClick={handleSearch}
+                        className="absolute right-2 px-6 py-2 rounded-full bg-danger text-white font-medium hover:bg-red-600 transition"
+                    >
+                        Search
+                    </button>
                 </div>
+            </div>
 
+            <div className="flex flex-col lg:flex-row gap-6">
 
-                <div className="grid gap-6">
-                    { data?.map((item: Article, i) => (
-                        <div
-                            key={i}
-                            className="p-6 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition bg-white">
-                            {/* Title */}
-                            <h3 className="text-lg font-semibold text-blue-600 mb-2">
-                                <Link
-                                    to={redirection(item)}
-                                    target="_blank"
-                                    className="hover:underline"
-                                >
-                                    {item.title}
-                                </Link>
-                            </h3>
+                {/* 📂 Sidebar */}
+                <aside className="lg:w-72 w-full space-y-6">
 
-                            {/* Description */}
-                            <div
-                                className="text-sm text-gray-700 mb-3 line-clamp-3"
-                                dangerouslySetInnerHTML={{ __html: item.description }}
-                            />
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-5">
+                        <h2 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            📂 Classes
+                        </h2>
+                        <SubjectLabel
+                            ref={subjectRef}
+                            search={textSearch}
+                            subject={paramSubject}
+                        />
+                    </div>
 
-                            {/* Source */}
-                            { item.source_url && (
-                                <Link
-                                    to={item.source_url}
-                                    target="_blank"
-                                    className="text-xs text-blue-500 hover:underline"
-                                >
-                                    {item.source_url}
-                                </Link>
-                            )}
+                    <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-5">
+                        <h2 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                            📑 Subject Headings
+                        </h2>
+                        <SubjectHeadingLabel
+                            ref={subjectHeadingRef}
+                            search={textSearch}
+                            subject={paramSubject}
+                        />
+                    </div>
+
+                </aside>
+
+                {/* 📚 Results */}
+                <main className="flex-1">
+
+                    <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                        📚 Digital Collections
+                    </h2>
+
+                    {!textSearch && (
+                        <div className="text-center text-gray-500 mt-12">
+                            🔍 Type a keyword to filter results in this classes
                         </div>
-                    ))}
-                </div>
-             
-            </main>
-        </div>
-    )
-}
+                    )}
 
-export default SubjectIndex
+                    <SearchResultLatest
+                        ref={searchRefLatest}
+                        search={textSearch}
+                        subject={paramSubject}
+                        sh={paramSh}
+                    />
+
+                    <SearchResultOthers
+                        ref={searchRefOthers}
+                        search={textSearch}
+                        subject={paramSubject}
+                        sh={paramSh}
+                    />
+                </main>
+            </div>
+        </div>
+    );
+};
+
+export default SubjectIndex;
