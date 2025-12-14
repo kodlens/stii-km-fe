@@ -2,9 +2,6 @@
 import ReactPaginate from 'react-paginate';
 
 const Paginate = ( {data}: {data:any}) => {
-
-    //const [page, setPage] = useState<number>(0)
-
     
   return (
     <ReactPaginate
